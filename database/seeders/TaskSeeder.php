@@ -16,24 +16,33 @@ class TaskSeeder extends Seeder
     public function run(): void
     {
         $users = User::factory(3)->create();
-        // Ensure at least one user meets the new criteria
+        // Ensure at least one user meets the new criteria for LargeTableSQLTest
         $specialUser = User::factory()->create();
-        $dates = ['2025-07-01', '2025-07-02', '2025-07-03', '2025-07-04'];
-        $taskIds = [];
-        foreach ($dates as $i => $date) {
-            $task = \App\Models\Task::factory()->create([
-                'user_id' => $specialUser->id,
-                'is_active' => 1,
-                'due_date' => $date,
-            ]);
-            $taskIds[] = $task->id;
-            // Each task gets 2+ large_table records with cost
-            \App\Models\LargeTable::factory(2)->create([
-                'task_id' => $task->id,
-                'user_id' => $specialUser->id,
-                'cost' => 100 * ($i + 1),
-            ]);
-        }
+        $task = \App\Models\Task::factory()->create([
+            'user_id' => $specialUser->id,
+            'is_active' => 1,
+            'due_date' => '2025-07-01',
+        ]);
+        // Insert 2 unique titles, both active, for the same user and task
+        \App\Models\LargeTable::factory()->create([
+            'task_id' => $task->id,
+            'user_id' => $specialUser->id,
+            'title' => 'Event A',
+            'is_active' => 1,
+        ]);
+        \App\Models\LargeTable::factory()->create([
+            'task_id' => $task->id,
+            'user_id' => $specialUser->id,
+            'title' => 'Event B',
+            'is_active' => 1,
+        ]);
+        // Add a third record with a different title, inactive, to show it doesn't affect the active count
+        \App\Models\LargeTable::factory()->create([
+            'task_id' => $task->id,
+            'user_id' => $specialUser->id,
+            'title' => 'Event C',
+            'is_active' => 0,
+        ]);
         // Add an inactive task for the same user
         \App\Models\Task::factory()->create([
             'user_id' => $specialUser->id,
