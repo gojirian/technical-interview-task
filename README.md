@@ -30,7 +30,7 @@ Welcome to the technical portion of your interview! This is designed to assess y
 - Show task details on individual pages.
 - Make the list link to each task.
 - Create and connect a comments section that links comments to the correct tasks.
-- **Optional:** Add a section to allow comments on the 2 pages that have been seeded.
+- **Optional:** Add a section to allow comments on the 2 pages that have been seeded. **To do this, you must complete the comments migration and create the Comment model if they are not already finished.**
 
 ### 4️⃣ Status Pill UI
 
