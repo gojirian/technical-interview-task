@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { usePage } from '@inertiajs/vue3';
 import type { Page } from '@/types/todo';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
-const pageProps = usePage<{ page: Page }>();
-const page = pageProps.props.page;
+const { page } = defineProps<{
+    page: Page;
+}>();
+
 </script>
 
 <template>
